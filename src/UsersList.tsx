@@ -25,9 +25,9 @@ export default function UsersList({ users }: { users: UserData }) {
 function UserItem({ user }: { user: User }) {
   return (
     <Table.Row>
-      <Table.RowHeaderCell>Jasper Eriksson</Table.RowHeaderCell>
-      <Table.Cell>jasper@example.com</Table.Cell>
-      <Table.Cell>Developer</Table.Cell>
+      <Table.RowHeaderCell>{user?.name ?? ''}</Table.RowHeaderCell>
+      <Table.Cell>{user?.email ?? ''}</Table.Cell>
+      <Table.Cell>{user?.phone ?? ''}</Table.Cell>
     </Table.Row>
   );
 }
