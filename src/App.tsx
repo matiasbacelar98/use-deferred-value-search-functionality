@@ -4,15 +4,22 @@ import { Theme, Heading, Flex } from '@radix-ui/themes';
 import '@radix-ui/themes/styles.css';
 
 import UsersList from './UsersList';
+import UsersListSkeleton from './UsersListSkeleton';
 import SearchUser from './SearchUser';
 
 import { User } from './types';
-import { useFetch } from './hooks';
+import { useFetch, useDebounce } from './hooks';
 import { URL } from './constants';
 
 export default function App() {
   const [query, setQuery] = React.useState<string>('');
-  const { data } = useFetch<User[]>(URL);
+
+  const deferredQuery = React.useDeferredValue(query);
+  const debouncedQuery = useDebounce(deferredQuery, 500);
+
+  const { data, loading } = useFetch<User[]>(
+    debouncedQuery === '' ? URL : `${URL}?name=${debouncedQuery}`
+  );
 
   function handleChange(value: string) {
     setQuery(value);
@@ -24,7 +31,7 @@ export default function App() {
         <Heading color='indigo'>Users</Heading>
         <SearchUser value={query} onChange={handleChange} />
       </Flex>
-      <UsersList users={data ?? []} />
+      {loading ? <UsersListSkeleton /> : <UsersList users={data ?? []} />}
     </Theme>
   );
 }

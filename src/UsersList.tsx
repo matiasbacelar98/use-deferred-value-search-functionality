@@ -1,7 +1,8 @@
+import React from 'react';
 import { Table, Box } from '@radix-ui/themes';
 import { User, UserData } from './types';
 
-export default function UsersList({ users }: { users: UserData }) {
+function UsersList({ users }: { users: UserData }) {
   return (
     <Box maxWidth='60rem'>
       <Table.Root>
@@ -31,3 +32,5 @@ function UserItem({ user }: { user: User }) {
     </Table.Row>
   );
 }
+
+export default React.memo(UsersList);
